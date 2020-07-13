@@ -1,0 +1,15 @@
+{
+    "fields": [
+        { 
+            "fieldName": "SiteName",
+            "rules": [
+                {
+                    "ruleName": "site_rule",
+                    "type": "regex",
+                    "pattern": "(Site A)",
+                    "flags": ["IGNORECASE", "MULTILINE"]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "fields": [
+        { 
+            "fieldName": "SiteName",
+            "rules": [
+                {
+                    "ruleName": "site_rule",
+                    "type": "regex",
+                    "pattern": "(Site A)",
+                    "flags": ["IGNORECASE", "MULTILINE"]
+                }
+            ]
+        },
+        {
+            "fieldName": "BuildYear",            
+            "rules": [
+                {
+                    "ruleName": "build_year",
+                    "type": "range",
+                    "fromValue": 1960,
+                    "toValue": 2000
+                }
+            ]
+        }
+    ],
+    "ruleGroups": [
+        {
+            "groupName": "site_group_rule",
+            "description": "Is it Site A built between 1960 and 2000",
+            "rules": [
+                {"fieldName": "SiteName", "ruleName": "site_rule"},
+                {"fieldName": "BuildYear", "ruleName": "build_year"}
+            ],
+            "match": "all"
+        }
+    ]
+}

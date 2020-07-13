@@ -1,12 +1,29 @@
 {
-    "run_datetime": "datetime YYYY-MM-DD HH:MM:SS",
+    "run_datetime": "2020-07-13 14:58:52",
     "fields": {
-        "Field1": [
-            {"ruleName": "regex", "errorIDs": []},
-            {"ruleName": "globalRange", "errorIDs": []}
-        ],
-        "Field2": [
-            {"ruleName": "globalRange", "errorIDs": []}
+        "YR_INST": [
+            {
+                "ruleName": "1963",
+                "errorIDs": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    9,
+                    10,
+                    11
+                ]
+            }
         ]
+    },
+    "groups": {
+        "facility_test": {
+            "errorIDs": [
+                5,
+                6
+            ],
+            "description": "Is it facility, in zone 2e and outside of range 1960 to 2000"
+        }
     }
 }

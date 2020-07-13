@@ -80,3 +80,14 @@ keep same dictionary reference as other rules and just check if row number is in
 keep field + rule name and loop each rulegroup/rule after all are processed
 
 i like option 1, but option 2 may be better
+
+
+i want to check all rules for each for
+
+----
+
+for each row
+
+for each field, test all rules
+
+test group rules
