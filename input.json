@@ -1,0 +1,54 @@
+{
+    "globalRules": [
+        {
+            "ruleName": "globalRange",
+            "type": "range",
+            "fromValue": 0,
+            "toValue": 10
+        },
+        {
+            "ruleName": "globalRegex",
+            "type": "regex",
+            "pattern": "[C]"
+        }
+    ],
+    "ruleGroups": [
+        {
+            "groupName": "CRange",
+            "rules": [
+                {"fieldName": "Field1", "ruleName": "regex"},
+                {"fieldName": "Field2", "ruleName": "globalRange"}
+            ],
+            "match": "all"
+        }
+    ],
+    "fields": [
+        { 
+            "fieldName": "Field1",
+            "ruleGroup": {
+                "match": "any",
+                "groupName": "g1",
+                "rules": []
+            },
+            "rules": [
+                {
+                    "ruleName": "regex",
+                    "type": "regex",
+                    "pattern": "[o]",
+                    "flags": ["IGNORECASE", "MULTILINE"]
+                },
+                {
+                    "ruleName": "globalRange"
+                }
+            ]
+        }, 
+        { 
+            "fieldName": "Field2",
+            "rules": [
+                {
+                    "ruleName": "globalRange"
+                }
+            ]
+        }
+    ]
+}

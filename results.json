@@ -1,0 +1,12 @@
+{
+    "run_datetime": "datetime YYYY-MM-DD HH:MM:SS",
+    "fields": {
+        "Field1": [
+            {"ruleName": "regex", "errorIDs": []},
+            {"ruleName": "globalRange", "errorIDs": []}
+        ],
+        "Field2": [
+            {"ruleName": "globalRange", "errorIDs": []}
+        ]
+    }
+}
