@@ -1,6 +1,7 @@
 import json
 import re
 import datetime
+import os
 
 import arcpy
 
@@ -14,7 +15,10 @@ regex_flag_dict = {
     "VERBOSE": re.X,
 }
 
-def main(json_path, feature):
+def main(json_path, feature, output_location=None, output_file_name=None):
+    output_file = format_output_file(output_location, output_file_name)
+
+
     start_time = datetime.datetime.now()
     start_str = start_time.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -23,7 +27,19 @@ def main(json_path, feature):
 
     results = _arc_process(rule_data, feature)
 
-    save_json(format_results(results, start_str))
+    save_json(format_results(results, start_str), output_file)
+
+
+def format_output_file(output_location, output_file_name):
+    if output_location is None:
+        output_location = ""
+    if output_file_name is None:
+        output_file_name = "results.json"
+
+    if not output_file_name.endswith(".json"):
+        output_file_name += ".json"
+
+    return os.path.join(output_location, output_file_name)
 
 
 def read_json(_json_path):
@@ -33,8 +49,8 @@ def read_json(_json_path):
     return js
 
 
-def save_json(_json_data):
-    with open('results.json', 'w') as fl:
+def save_json(_json_data, output_file):
+    with open(output_file, 'w') as fl:
         fl.write(json.dumps(_json_data))
 
 
@@ -76,7 +92,7 @@ def format_results(rule_data, _datetime_str):
 
 def _arc_process(rule_data, feature):
     """
-    impure function as i'm modifying the rule_data
+    impure function as i am modifying the rule_data
 
     input = {
         "Rules": rule_dict,
@@ -84,13 +100,10 @@ def _arc_process(rule_data, feature):
         "Groups": group_dict
     }
     returns dictionary of the rules"""
-    c = 0
-
     fields = [field for field in rule_data['Fields']]
     
     with arcpy.da.SearchCursor(feature, ["OID@"] + fields) as sc:
         for row in sc:
-            c += 1
             _id = row[0]
 
             for ix, value in enumerate(row[1:]):
@@ -104,15 +117,9 @@ def _arc_process(rule_data, feature):
                 group_result = group_func([True if _id in r['result'] else False for r in group['rules']])
                 if group_result == True:
                     group['result'].append(_id) 
-                
-            if c > 10:
-                break
+
 
     return rule_data
-
-
-def validate_fields(value, field_rules):
-    pass
 
 
 # region Linters
@@ -181,10 +188,10 @@ def _compile_field_rules(json_obj, rule_dict):
         field_name = field.get('fieldName')
         for rule in field.get('rules', []):
             rule_name = rule.get('ruleName', '').upper()
-            output_rule = rule.get('output', True
-            )
+            rule_type = rule.get('type')
+            output_rule = rule.get('output', True)
             nm = None
-            if 'global_{}'.format(rule_name) in rule_dict:
+            if rule_type is None and 'global_{}'.format(rule_name) in rule_dict:
                 nm = 'global_{}'.format(rule_name)                
             else:
                 nm = '{}_{}'.format(field_name, rule_name)

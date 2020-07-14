@@ -6,11 +6,13 @@ Flexible, repeatable and open, by using regex patterns to apply data validation 
 
 ## **Why**
 
-Many of these data checks should be completed with domains. By restricting the input to a fixed domain value, the data should be consistant within that field.
+Many of these data checks should be completed with domains. This does not replace domains as a number of these parameters can be solved by using domains to restrict inputs.
 
-That said, there is cases when a domain is unable to fully match and clean data. Examples of this are fields with blank values, leading or trailing whitespace in text, line returns and so forth. Domains and standard processing is unable to flag these errors, which is where this tool can help improve the data consistancy and structure.
+That said, there is cases when a domain is unable to fully match data for cleaning. Examples of this are fields with blank values, leading or trailing whitespace in text, line returns and so forth. Domains are unable to flag these errors, which is where this tool can help improve the data consistancy and structure.
 
-At its root the regex patterns give you flexibility to produce complex rules to flag your data. They must conform to the python spec for the re module for regex [re link](https://docs.python.org/3/library/re.html)
+At its root the regex patterns give you flexibility to produce complex rules to flag your data. They must conform to the python spec for the re module for regex 
+
+**[re link](https://docs.python.org/3/library/re.html)**
 
 ## **Input**
 
@@ -66,7 +68,7 @@ Each rule should have a unique rule name for that field. Rules names may be dupl
 
 ## **Global Rules**
 
-If you would like to apply a rule to many different fields, then you should create a global rule and specify it in the rules array. Like within the field rules, global rules should be unique to its scope.
+If you would like to apply a rule to many different fields, you should create a global rule and specify it in the rules array. Like within the field rules, global rules should be unique to its scope.
 
 At the root level of your json file, a "globalRule" should be defined. This should have "globalRules" as the key and an array as the value.
 
@@ -177,15 +179,46 @@ It will specify the individual rows that had field errors as well as the rows th
     }
 
 
-# Specifications
+# Specifications.
 
-### **Rules**
+## **Nomenclature**
+
+keys should follow camelCase structure.
+
+    {
+        "globalRules": [<rule>], -> series of rule objects
+        "fields": [<field object>], -> series of field objects
+        "ruleGroups": [<rule group objects>] > series of rule group objects
+    }
+
+### **Field Object**
+
+    {
+        "fieldName": "" -> required name of field
+        "rules": [<rule>] -> 
+    }
+
+### **Rule Group Object**
+
+    {
+        "groupName": "",
+        "description": "",
+        "rules": [
+            {"fieldName": "", "ruleName": ""} -> this is an array of objects indicating the field name and the rule name within that field
+        ]
+    }
+    
+
+
+
+
+## **Rules**
 
     Required
-    "ruleName": "" -> string of rule name. only one required if global rule used
+    "ruleName": "" -> string of rule name or global rule name. only one required if global rule used
 
     Optional
-    "output": true or false -> show this rule in output data
+    "output": true or false -> show this rule in output data. Default = true
 
 **Regex Rule**
     
@@ -208,3 +241,5 @@ It will specify the individual rows that had field errors as well as the rows th
     "toValue": 0 -> number of to value
     "outside": true or false -> boolean flag to mark values inside or outside of range as accepted
     
+
+
