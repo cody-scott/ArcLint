@@ -178,3 +178,33 @@ It will specify the individual rows that had field errors as well as the rows th
 
 
 # Specifications
+
+### **Rules**
+
+    Required
+    "ruleName": "" -> string of rule name. only one required if global rule used
+
+    Optional
+    "output": true or false -> show this rule in output data
+
+**Regex Rule**
+    
+    "type": "regex" -> type of rule
+    "pattern": "" -> regex pattern to use
+    "flags": [
+        "IGNORECASE",
+        "LOCALE",
+        "MULTILINE",
+        "DOTMATCH",
+        "UNICODE",
+        "VERBOSE"
+    ] -> none or any of these flags
+
+
+**Range Rule**
+
+    "type": "range" -> type of rule
+    "fromValue": 0 -> number of from value,
+    "toValue": 0 -> number of to value
+    "outside": true or false -> boolean flag to mark values inside or outside of range as accepted
+    
